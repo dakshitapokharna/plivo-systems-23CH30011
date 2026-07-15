@@ -1,0 +1,12 @@
+# Compiled binaries
+*.exe
+*.obj
+*.o
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Claude internal
+.claude/

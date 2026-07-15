@@ -1,0 +1,10 @@
+{
+  "name": "C_burst",
+  "loss_rate": 0.03,
+  "burst_loss_prob": 0.012,
+  "burst_loss_len_min": 3,
+  "burst_loss_len_max": 6,
+  "dup_rate": 0.02,
+  "jitter_min_ms": 5,
+  "jitter_max_ms": 35
+}

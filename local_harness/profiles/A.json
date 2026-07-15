@@ -1,0 +1,10 @@
+{
+  "name": "A",
+  "loss_rate": 0.05,
+  "burst_loss_prob": 0.0,
+  "burst_loss_len_min": 2,
+  "burst_loss_len_max": 3,
+  "dup_rate": 0.02,
+  "jitter_min_ms": 5,
+  "jitter_max_ms": 30
+}
