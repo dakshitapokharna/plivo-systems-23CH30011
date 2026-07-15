@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Systems Assignment – Run Summary</title>
+<style>
+  body { font-family: sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; color: #222; }
+  h1 { border-bottom: 2px solid #444; padding-bottom: 8px; }
+  h2 { margin-top: 32px; color: #333; }
+  table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+  th { background: #333; color: #fff; }
+  tr:nth-child(even) { background: #f0f0f0; }
+  .valid { color: #2a7; font-weight: bold; }
+  .tag { display: inline-block; background: #333; color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 0.85em; }
+  .box { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 16px 20px; margin-top: 16px; }
+  code { background: #eee; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+</style>
+</head>
+<body>
+
+<h1>UDP Sender / Receiver – Run Summary</h1>
+<p><strong>Student:</strong> 23CH30011 &nbsp;|&nbsp; <strong>Playout Delay:</strong> <code>200 ms</code> &nbsp;|&nbsp; <strong>Strategy:</strong> Proactive Redundancy</p>
+
+<h2>Results by Profile</h2>
+<table>
+  <tr>
+    <th>Profile</th><th>Frames</th><th>Misses</th><th>Miss Rate</th><th>Overhead</th><th>Valid</th>
+  </tr>
+  <tr>
+    <td>A – Random Loss</td><td>500</td><td>2</td><td>0.40%</td><td>1.968×</td><td class="valid">YES</td>
+  </tr>
+  <tr>
+    <td>B – Mild Burst</td><td>500</td><td>3</td><td>0.60%</td><td>1.964×</td><td class="valid">YES</td>
+  </tr>
+  <tr>
+    <td>C_burst – Heavy Burst</td><td>500</td><td>4</td><td>0.80%</td><td>1.966×</td><td class="valid">YES</td>
+  </tr>
+</table>
+
+<h2>Design</h2>
+<div class="box">
+  <p><span class="tag">Strategy</span> &nbsp; Proactive redundancy — no retransmit.</p>
+  <p>Every packet carries the <strong>current primary frame</strong> plus a redundant copy of a frame sent <strong>d_offset frames earlier</strong>. A single burst only causes a miss if it spans both the primary and its redundant copy's packet, so maximising <code>d_offset</code> directly buys burst tolerance.</p>
+  <p><strong>Formula:</strong> <code>d_offset = (delay_ms − 70) / 20</code> &nbsp;→&nbsp; at 200 ms: <code>d_offset = 6 frames</code></p>
+  <p>This separates primary and redundant by 6 packets — enough to survive the worst burst in Profile C_burst (max burst length = 6).</p>
+  <p><strong>Bandwidth:</strong> Sender tracks a running <code>sent / raw</code> ratio and skips the redundant copy whenever adding it would exceed <code>1.97×</code>, keeping overhead under the 2.0× cap.</p>
+</div>
+
+<h2>Port Map</h2>
+<table>
+  <tr><th>Port</th><th>Direction</th></tr>
+  <tr><td>47010</td><td>Harness source → Sender (listen)</td></tr>
+  <tr><td>47001</td><td>Sender → Relay</td></tr>
+  <tr><td>47002</td><td>Relay → Receiver (listen)</td></tr>
+  <tr><td>47020</td><td>Receiver → Harness player</td></tr>
+</table>
+
+</body>
+</html>
