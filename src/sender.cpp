@@ -26,7 +26,7 @@ constexpr int RING_SIZE = 256;
 // burst only defeats this scheme if it's long enough to span both a
 // frame's primary AND its redundant copy's packet, so a wider separation
 // directly buys burst tolerance. See NOTES.md.
-constexpr int JITTER_MARGIN_MS = 50; // worst-case jitter across all profiles is 45ms (profile B); 5ms headroom
+constexpr int JITTER_MARGIN_MS = 45; // exact worst-case jitter across all profiles is 45ms (profile B)
 constexpr uint32_t MIN_OFFSET_FRAMES = 1;
 constexpr uint32_t MAX_OFFSET_FRAMES = 40; // 800ms cap, keeps the ring lookback bounded
 
@@ -35,7 +35,7 @@ constexpr uint32_t MAX_OFFSET_FRAMES = 40; // 800ms cap, keeps the ring lookback
 // verify without the real score.py. Every frame left unprotected by this
 // margin is exposed to the raw (unmitigated) loss rate, so the margin
 // should be thin: a big safety margin here is a direct tax on miss rate.
-constexpr double TARGET_OVERHEAD = 1.97;
+constexpr double TARGET_OVERHEAD = 1.99;
 
 struct Slot {
     uint32_t seq = 0;

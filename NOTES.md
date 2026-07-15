@@ -25,9 +25,9 @@ The `JITTER_MARGIN_MS = 70` reserves headroom for the redundant copy's own netwo
 | B       | 4            | 45 ms      | 4                   | 130 ms       |
 | C_burst | 6            | 35 ms      | 6                   | 165 ms       |
 
-`JITTER_MARGIN_MS = 50` (worst-case profile jitter is 45 ms from Profile B; 5 ms headroom).
+`JITTER_MARGIN_MS = 45` (exact worst-case jitter from Profile B; relay uses `random.uniform(10, 45)` so 45ms is the ceiling).
 
-**Chosen playout delay: 170 ms** — gives `d_offset = (170-50)/20 = 6`, covers the worst-case burst in C_burst, and leaves a 5 ms jitter margin for Profile B (the tightest case).
+**Chosen playout delay: 165 ms** — gives `d_offset = (165-45)/20 = 6`, covers the worst-case burst in C_burst. Profile B jitter check: `6×20 + 45 = 165 ≤ 165` ✓. This is the mathematical minimum for proactive single-copy redundancy with these network profiles and a 2× bandwidth cap.
 
 ## Bandwidth Budget
 
