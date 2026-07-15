@@ -21,11 +21,13 @@ The `JITTER_MARGIN_MS = 70` reserves headroom for the redundant copy's own netwo
 
 | Profile | burst_len_max | jitter_max | min d_offset needed | min delay_ms |
 |---------|--------------|------------|---------------------|--------------|
-| A       | 0 (none)     | 30 ms      | 1                   | 90 ms        |
-| B       | 4            | 45 ms      | 4                   | 150 ms       |
-| C_burst | 6            | 35 ms      | 6                   | 190 ms       |
+| A       | 0 (none)     | 30 ms      | 1                   | 70 ms        |
+| B       | 4            | 45 ms      | 4                   | 130 ms       |
+| C_burst | 6            | 35 ms      | 6                   | 165 ms       |
 
-**Chosen playout delay: 200 ms** — gives `d_offset = 6`, covers the worst-case burst in C_burst, and leaves a 10 ms margin over the theoretical minimum.
+`JITTER_MARGIN_MS = 50` (worst-case profile jitter is 45 ms from Profile B; 5 ms headroom).
+
+**Chosen playout delay: 170 ms** — gives `d_offset = (170-50)/20 = 6`, covers the worst-case burst in C_burst, and leaves a 5 ms jitter margin for Profile B (the tightest case).
 
 ## Bandwidth Budget
 

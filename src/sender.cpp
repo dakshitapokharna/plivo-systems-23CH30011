@@ -26,7 +26,7 @@ constexpr int RING_SIZE = 256;
 // burst only defeats this scheme if it's long enough to span both a
 // frame's primary AND its redundant copy's packet, so a wider separation
 // directly buys burst tolerance. See NOTES.md.
-constexpr int JITTER_MARGIN_MS = 70; // reserved for the redundant copy's own transit
+constexpr int JITTER_MARGIN_MS = 50; // worst-case jitter across all profiles is 45ms (profile B); 5ms headroom
 constexpr uint32_t MIN_OFFSET_FRAMES = 1;
 constexpr uint32_t MAX_OFFSET_FRAMES = 40; // 800ms cap, keeps the ring lookback bounded
 
